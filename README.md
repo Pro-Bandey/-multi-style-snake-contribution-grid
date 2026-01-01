@@ -1,7 +1,7 @@
 
 # 🐍 Multi-Style Snake Contribution Grid
 
-[![Generate Snake](https://github.com/YourUsername/YourRepo/actions/workflows/snake.yml/badge.svg)](https://github.com/YourUsername/YourRepo/actions/workflows/snake.yml)
+[![Generate Snake](https://img.shields.io/badge/File-yml-red)](https://github.com/Pro-Bandey/multi-style-snake-contribution-grid/blob/main/.github/workflows/snake.yml)
 [![Output Branch](https://img.shields.io/badge/branch-output-blueviolet)](https://github.com/YourUsername/YourRepo/tree/output)
 
 Transform your GitHub contribution graph into a dynamic animation with **5 distinct styles**, unique shapes, and automated month labels. This project uses a custom composite action to generate multiple snake variations simultaneously.
