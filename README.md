@@ -1,37 +1,36 @@
 
-# 🐍 Multi-Style Snake Generator
+# 🐍 Multi-Style Snake Contribution Grid
 
-[![Marketplace](https://img.shields.io/badge/Marketplace-Multi--Style--Snake-green?logo=github)](https://github.com/marketplace)
-[![Build](https://github.com/Pro-Bandey/multi-style-snake-action/actions/workflows/snake.yml/badge.svg)](https://github.com/Pro-Bandey/multi-style-snake-action/actions)
+[![Generate Snake](https://github.com/YourUsername/YourRepo/actions/workflows/snake.yml/badge.svg)](https://github.com/YourUsername/YourRepo/actions/workflows/snake.yml)
+[![Output Branch](https://img.shields.io/badge/branch-output-blueviolet)](https://github.com/YourUsername/YourRepo/tree/output)
 
-Generate beautiful, highly customized GitHub contribution snakes with a single action. This action doesn't just make one snake; it generates **four distinct styles** featuring unique shapes, backgrounds, and **multi-snake effects**.
+Transform your GitHub contribution graph into a dynamic animation with **5 distinct styles**, unique shapes, and automated month labels. This project uses a custom composite action to generate multiple snake variations simultaneously.
 
-## 🌟 Features
+## ✨ Features
 
-- **Auto-Username Detection:** No need to hardcode your name; it automatically analyzes the repository owner.
-- **Multiple Shapes:** Blocks (Squares), Rounds (Circles), Triangles, and 10-point Stars.
-- **Multi-Snake Effects:** Uses CSS injection to create **Twin** and **Triple** snake visuals.
-- **Enhanced Labels:** Month names are styled and clearly visible above the grid.
-- **Theme Variety:** Includes Light, Dark, Ocean, and Dracula/Neon themes.
+- **Auto-User Detection**: No need to hardcode names; it automatically analyzes the repository owner.
+- **5 Unique Themes**: Light, Dark, Ocean, Dracula, and Hacker.
+- **Geometric Shapes**: Little-blocks are transformed into **Squares, Rounds, Triangles, Stars, and Diamonds**.
+- **Month Visibility**: Bold month names are rendered directly above the contribution grid for better context.
+- **Automated Gallery**: Generates a `README.md` inside the `output` branch to preview all assets in one place.
+- **GIF & SVG Support**: High-quality SVGs for crisp profile rendering and GIFs for social sharing.
+
+## 🎨 Style Gallery
+
+| Style | Shape | Background | Snake Color |
+| :--- | :--- | :--- | :--- |
+| **Light** | 🟦 Blocks | White | Orange |
+| **Dark** | 🔵 Rounds | Dark Grey | Yellow |
+| **Ocean** | 🔺 Triangles | Deep Sea Blue | Cyan |
+| **Dracula** | ⭐ Stars | Dracula Purple | Pink |
+| **Hacker** | 💎 Diamonds | Pure Black | Neon Green |
 
 ---
 
-## 🖼️ Gallery (Styles Included)
+## 🚀 Setup
 
-| Style | Preview | Shape |
-| :--- | :--- | :--- |
-| **Twin Snakes** | ![Twin Snakes](https://raw.githubusercontent.com/Pro-Bandey/multi-style-snake-action/output/twin-snakes.svg) | Blocks + Shadow |
-| **Triple Neon** | ![Triple Neon](https://raw.githubusercontent.com/Pro-Bandey/multi-style-snake-action/output/triple-snake.svg) | Blocks + Double Shadow |
-| **Disco Rounds** | ![Disco Rounds](https://raw.githubusercontent.com/Pro-Bandey/multi-style-snake-action/output/disco-snake.svg) | Circles (Animated) |
-| **Star Power** | ![Star Snake](https://raw.githubusercontent.com/Pro-Bandey/multi-style-snake-action/output/star-snake.svg) | 10-Point Stars |
-
----
-
-## 🚀 Quick Start
-
-1. Create a new repository (or use your Profile README repo).
-2. Create a file at `.github/workflows/snake.yml`.
-3. Paste the following code:
+### 1. Create the Workflow
+Create a file at `.github/workflows/snake.yml` and paste the following:
 
 ```yaml
 name: Generate Snake
@@ -43,75 +42,64 @@ permissions:
 
 on:
   schedule:
-    - cron: "0 */12 * * *" # Runs every 12 hours
-  workflow_dispatch: # Allows manual trigger
+    - cron: "0 */6 * * *" # Every 6 hours
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
+      # This uses the Composite Action code we developed
       - name: Generate Snakes
-        uses: Pro-Bandey/multi-style-snake-action@v1 # Use the version you published
+        uses: Pro-Bandey/multi-style-snake-action@main # Replace with your repo path
+        with:
+          github_user_name: ${{ github.repository_owner }}
 ```
+
+### 2. Manual Action Settings
+1. Go to your repository **Settings** > **Actions** > **General**.
+2. Scroll to **Workflow permissions** and ensure **"Read and write permissions"** is selected.
 
 ---
 
-## 🛠️ How to Display on Your Profile
+## 📊 View Your Results
 
-Once the action runs, it creates an `output` branch. Add the following Markdown to your `README.md` to show off your snakes:
+After the action runs (manually or via schedule), it will create a new branch named `output`. You can find all your files there:
+
+- `github-snake-light-blocks.svg`
+- `github-snake-dark-rounds.svg`
+- `github-snake-ocean-triangles.svg`
+- `github-snake-dracula-stars.svg`
+- `github-snake-hacker-diamonds.svg`
+- `README.md` (The auto-generated gallery)
+
+---
+
+## 🖼️ Adding to your Profile README
+
+Copy and paste this into your profile `README.md` to show off your favorite style:
 
 ```markdown
-### My Contribution Snakes
-
-#### Twin Style (The Shadow Follower)
-![Snake](https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/output/twin-snakes.svg)
-
-#### Neon Triple Style
-![Snake](https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/output/triple-snake.svg)
-
-#### Star Style
-![Snake](https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/output/star-snake.svg)
+## 🐍 My Contribution Snake
+![Snake Animation](https://github.com/USER_NAME/REPO_NAME/blob/output/github-snake-dracula-stars.svg)
 ```
-*> Note: Replace `YOUR_USERNAME` and `YOUR_REPO` with your actual details.*
+
+## 🛠️ Technical Overview
+
+The generation uses CSS `clip-path` injection for the complex shapes (Triangles, Stars, Diamonds) within the SVG output. 
+
+```css
+/* Example of the Star Shape used */
+rect.ContributionCalendar-day {
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+```
 
 ---
 
-## 🎨 Style Breakdown
-
-### 1. The Twin Snake
-Features a primary green snake followed by a purple "ghost" snake using CSS filters.
-- **Shapes:** Classic Blocks.
-- **Best For:** Clean, minimal profiles with a twist.
-
-### 2. Triple Neon
-One main Cyan snake with Magenta and Yellow shadows, creating a "squad" effect.
-- **Background:** Deep Black.
-- **Best For:** Dark-themed profiles.
-
-### 3. Disco Rounds
-A circular snake that changes color dynamically using CSS keyframe animations.
-- **Shape:** Perfect Circles.
-- **Effect:** Color shifting.
-
-### 4. Galactic Stars
-The most complex style, turning every contribution block into a 10-point star.
-- **Shape:** Star Polygons.
-- **Colors:** Gold and Purple.
-
----
-
-## 🤝 Contributing
-Feel free to fork this repo and add more CSS shapes (like diamonds or hearts)! 
-
-Created by [Pro-Bandey](https://github.com/Pro-Bandey).
-
----
-*Based on the amazing [snk](https://github.com/Platane/snk) engine by Platane.*
-
-***
-
-### 💡 Pro-Tip for your Marketplace Page:
-When you go to **Release** your action, GitHub will let you upload a "Social Preview" image. I recommend taking a screenshot of all four snakes together and using that as your banner so people see the variety immediately!
+**Author:** [Pro-Bandey](https://github.com/Pro-Bandey)  
+**License:** MIT  
+*Generated with ❤️ and custom CSS modifications.*
