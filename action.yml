@@ -1,5 +1,5 @@
 name: 'Multi-Style Contribution Snake'
-description: 'Generates 4 unique styles of contribution snakes (Blocks, Rounds, Triangles, Stars) with auto-username detection.'
+description: 'Generates 5 unique styles of contribution snakes with an auto-generated documentation gallery.'
 author: 'Pro-Bandey'
 branding:
   icon: 'play'
@@ -18,22 +18,22 @@ runs:
       run: mkdir -p dist
       shell: bash
 
-    # 1. Light Style - Blocks
+    # 1. Light Style - Blocks (Squares)
     - name: Generate Light Snake
       uses: Platane/snk@v3
       with:
         github_user_name: ${{ inputs.github_user_name }}
         outputs: |
-          dist/github-snake-light-blocks.svg?palette=github-light&color_snake=orange&custom_css=.month{fill:#333;font-weight:bold;}
+          dist/github-snake-light-blocks.svg?palette=github-light&color_snake=orange&custom_css=.month{fill:#333;font-weight:bold;font-family:sans-serif;}
           dist/github-snake-light-blocks.gif?palette=github-light&color_snake=orange&color_background=#ffffff
 
-    # 2. Dark Style - Rounds
+    # 2. Dark Style - Rounds (Circles)
     - name: Generate Dark Snake
       uses: Platane/snk@v3
       with:
         github_user_name: ${{ inputs.github_user_name }}
         outputs: |
-          dist/github-snake-dark-rounds.svg?palette=github-dark&color_snake=#fe2&shape=circle&custom_css=.month{fill:#fe2;}
+          dist/github-snake-dark-rounds.svg?palette=github-dark&color_snake=#fe2&shape=circle&custom_css=.month{fill:#fe2;font-weight:bold;}
           dist/github-snake-dark-rounds.gif?palette=github-dark&color_snake=#fe2&shape=circle&color_background=#0d1117
 
     # 3. Ocean Style - Triangles
@@ -42,7 +42,7 @@ runs:
       with:
         github_user_name: ${{ inputs.github_user_name }}
         outputs: |
-          dist/github-snake-ocean-triangles.svg?color_snake=#00fff2&color_dots=#05152c,#03415e,#025d84,#0176a7,#008fc9&custom_css=rect.ContributionCalendar-day{clip-path:polygon(50% 0%, 0% 100%, 100% 100%);}.month{fill:#00fff2;}
+          dist/github-snake-ocean-triangles.svg?color_snake=#00fff2&color_dots=#05152c,#03415e,#025d84,#0176a7,#008fc9&custom_css=rect.ContributionCalendar-day{clip-path:polygon(50% 0%, 0% 100%, 100% 100%);}.month{fill:#00fff2;font-weight:bold;}
           dist/github-snake-ocean-triangles.gif?color_snake=#00fff2&color_dots=#05152c,#03415e,#025d84,#0176a7,#008fc9&color_background=#05152c
 
     # 4. Dracula Style - Stars
@@ -51,8 +51,36 @@ runs:
       with:
         github_user_name: ${{ inputs.github_user_name }}
         outputs: |
-          dist/github-snake-dracula-stars.svg?color_snake=#ff79c6&color_dots=#282a36,#44475a,#6272a4,#bd93f9,#ff79c6&custom_css=rect.ContributionCalendar-day{clip-path:polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);}.month{fill:#bd93f9;}
+          dist/github-snake-dracula-stars.svg?color_snake=#ff79c6&color_dots=#282a36,#44475a,#6272a4,#bd93f9,#ff79c6&custom_css=rect.ContributionCalendar-day{clip-path:polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);}.month{fill:#bd93f9;font-weight:bold;}
           dist/github-snake-dracula-stars.gif?color_snake=#ff79c6&color_dots=#282a36,#44475a,#6272a4,#bd93f9,#ff79c6&color_background=#282a36
+
+    # 5. NEW: Hacker Style - Diamonds (Feature addition)
+    - name: Generate Hacker Snake
+      uses: Platane/snk@v3
+      with:
+        github_user_name: ${{ inputs.github_user_name }}
+        outputs: |
+          dist/github-snake-hacker-diamonds.svg?color_snake=#39ff14&color_dots=#000000,#003b00,#008f11,#00ff41,#b5ffb5&custom_css=rect.ContributionCalendar-day{clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);}.month{fill:#39ff14;font-family:monospace;}
+          dist/github-snake-hacker-diamonds.gif?color_snake=#39ff14&color_dots=#000000,#003b00,#008f11,#00ff41,#b5ffb5&color_background=#000000
+
+    # GENERATE DETAILS OVERVIEW (.md)
+    - name: Generate Asset Overview
+      run: |
+        echo "# 🐍 Snake Gallery Overview" > dist/README.md
+        echo "Generated for: **${{ inputs.github_user_name }}**" >> dist/README.md
+        echo "Last Updated: $(date)" >> dist/README.md
+        echo "" >> dist/README.md
+        echo "| Style | Shape | Preview (SVG) |" >> dist/README.md
+        echo "| :--- | :--- | :--- |" >> dist/README.md
+        echo "| **Light** | Blocks | ![Light](./github-snake-light-blocks.svg) |" >> dist/README.md
+        echo "| **Dark** | Rounds | ![Dark](./github-snake-dark-rounds.svg) |" >> dist/README.md
+        echo "| **Ocean** | Triangles | ![Ocean](./github-snake-ocean-triangles.svg) |" >> dist/README.md
+        echo "| **Dracula** | Stars | ![Dracula](./github-snake-dracula-stars.svg) |" >> dist/README.md
+        echo "| **Hacker** | Diamonds | ![Hacker](./github-snake-hacker-diamonds.svg) |" >> dist/README.md
+        echo "" >> dist/README.md
+        echo "### 📂 Asset List" >> dist/README.md
+        echo "- [View All Assets](https://github.com/${{ github.repository }}/tree/output)" >> dist/README.md
+      shell: bash
 
     - name: Deploy to output branch
       uses: crazy-max/ghaction-github-pages@v4
