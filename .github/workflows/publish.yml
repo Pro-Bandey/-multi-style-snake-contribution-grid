@@ -3,13 +3,13 @@ name: Marketplace Daily Release
 on:
   schedule:
     - cron: "0 0 * * *" # Runs every day at midnight
-  workflow_dispatch: # Allows you to run it manually to test
+  workflow_dispatch:
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Required to create releases and tags
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -18,8 +18,8 @@ jobs:
       - name: Generate Version String
         id: versioning
         run: |
-          # Generates date in DD.MM format
-          VERSION=$(date +v%d.%m)
+          # Generates date in DD.MM.YY format (e.g., v05.01.25)
+          VERSION=$(date +v%d.%m.%y)
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "Releasing version: $VERSION"
         shell: bash
@@ -31,14 +31,17 @@ jobs:
           name: Release ${{ steps.versioning.outputs.VERSION }}
           body: |
             ## 🐍 Multi-Style Snake Daily Update
-            This is an automated daily release to the GitHub Marketplace.
+            Automated daily release to the GitHub Marketplace.
             
-            **Version:** `${{ steps.versioning.outputs.VERSION }}`
-            **Update Date:** $(date +'%Y-%m-%d')
+            **Version Details:**
+            - **Tag:** `${{ steps.versioning.outputs.VERSION }}`
+            - **Release Date:** $(date +'%A, %B %d, 20%y')
             
-            - Updated CSS patterns for Triangles, Stars, and Diamonds.
-            - Refreshed auto-username detection logic.
-            - Generated latest style previews.
+            **Included Features:**
+            - 5 Unique Snake Styles (Blocks, Rounds, Triangles, Stars, Diamonds)
+            - Automated Month Labels above grids
+            - Dynamic Username Detection
+            - Auto-generated Asset Gallery
           draft: false
           prerelease: false
         env:
