@@ -1,0 +1,45 @@
+name: Marketplace Daily Release
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs every day at midnight
+  workflow_dispatch: # Allows you to run it manually to test
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to create releases and tags
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate Version String
+        id: versioning
+        run: |
+          # Generates date in DD.MM format
+          VERSION=$(date +v%d.%m)
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Releasing version: $VERSION"
+        shell: bash
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.versioning.outputs.VERSION }}
+          name: Release ${{ steps.versioning.outputs.VERSION }}
+          body: |
+            ## 🐍 Multi-Style Snake Daily Update
+            This is an automated daily release to the GitHub Marketplace.
+            
+            **Version:** `${{ steps.versioning.outputs.VERSION }}`
+            **Update Date:** $(date +'%Y-%m-%d')
+            
+            - Updated CSS patterns for Triangles, Stars, and Diamonds.
+            - Refreshed auto-username detection logic.
+            - Generated latest style previews.
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
